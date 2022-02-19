@@ -7,6 +7,5 @@ def unsplash():
   response_API = requests.get(URL)
   if(str(response_API) == "<Response [200]>"):
     res = response_API.url
-    print(res)
 
   return res
