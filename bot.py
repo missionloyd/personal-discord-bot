@@ -80,6 +80,12 @@ async def usplash(ctx):
     channel = await client.fetch_channel(channel_id)
     await channel.send(unsplash())
 
+@client.command()
+async def reboot(ctx):
+    channel = await client.fetch_channel(channel_id)
+    await channel.send("Goodbye!")
+    os.system("sudo reboot")
+
 @client.event
 async def my_id(message):
     print(message.author.id)
