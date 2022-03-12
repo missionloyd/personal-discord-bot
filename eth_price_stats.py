@@ -3,20 +3,20 @@ import json
 from datetime import datetime
 from datetime import timedelta
 
-current_price = ''
-current_date = ''
-current_gas = ''
-current_gas_eth = ''
-historical_date = ''
-historical_price = ''
-price_diff_dec = ''
-price_diff_perc = ''
-time_ago = '24H'
-coin = 'ETH'
-result = 'API Failure'
-errors = False
-
 def eth_price_stats():
+  
+  current_price = ''
+  current_date = ''
+  current_gas = ''
+  current_gas_eth = ''
+  historical_date = ''
+  historical_price = ''
+  price_diff_dec = ''
+  price_diff_perc = ''
+  time_ago = '24H'
+  coin = 'ETH'
+  result = 'API Failure'
+  errors = False
 
   current_dict = {
     'current_price_url': 'https://api.coinbase.com/v2/prices/ETH-USD/spot', 
@@ -66,10 +66,10 @@ def eth_price_stats():
     result = ''
 
     if(float(price_diff_dec) > float(0)):
-      result = outputView('green')
+      result = outputView('green', coin, current_price, time_ago, price_diff_dec, price_diff_perc, current_gas, current_gas_eth)
 
     else:
-      result = outputView('red')
+      result = outputView('red', coin, current_price, time_ago, price_diff_dec, price_diff_perc, current_gas, current_gas_eth)
 
   return '\n' + result + '\n==========================\n'
 # print('\n' + result + '\n==========================\n')
@@ -88,11 +88,11 @@ def diff(curr, prev):
   perc = str(round((((abs(prev - curr))/((prev + curr) / 2)) * 100), 2))
   return dec, perc
 
-def gwei2USD(feeCap):
+def gwei2USD(feeCap, current_gas_eth):
   num = feeCap * current_gas_eth * 0.000000001 * 21000
   return '$' + str(round(num, 2))
 
-def outputView(option):
+def outputView(option, coin, current_price, time_ago, price_diff_dec, price_diff_perc, current_gas, current_gas_eth):
   output = ''
   borderIcon = ''
   arrowIcon = ''
@@ -111,7 +111,7 @@ def outputView(option):
   output += ':purple_circle: $' + current_price + ' (' + time_ago + ')\n'
   output += arrowIcon + price_diff_dec + ' (' + price_diff_perc + '%)\n'
   output += ':fuelpump: ' + str(round(current_gas['instant']['feeCap'], 2)) + ', ' + str(round(current_gas['fast']['feeCap'], 2)) + ', ' + str(round(current_gas['eco']['feeCap'], 2)) + '\n'
-  output += ':battery: ' + gwei2USD(current_gas['instant']['feeCap']) + ', ' + gwei2USD(current_gas['fast']['feeCap']) + ', ' + gwei2USD(current_gas['eco']['feeCap']) + '\n'
+  output += ':battery: ' + gwei2USD(current_gas['instant']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['fast']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['eco']['feeCap'], current_gas_eth) + '\n'
 
   for i in range(0,10):
     output += borderIcon
