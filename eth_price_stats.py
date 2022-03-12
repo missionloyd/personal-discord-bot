@@ -4,7 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 
 def eth_price_stats():
-  
+
   current_price = ''
   current_date = ''
   current_gas = ''
@@ -99,10 +99,10 @@ def outputView(option, coin, current_price, time_ago, price_diff_dec, price_diff
 
   if(option == 'green'):
     borderIcon = ":green_circle: "
-    arrowIcon = "arrow_up_small:  +"
+    arrowIcon = ":arrow_up_small:  +"
   else:
     borderIcon = ":red_circle: "
-    arrowIcon = "arrow_down_small:  "
+    arrowIcon = ":arrow_down_small:  "
 
   for i in range(0,10):
     output += borderIcon
@@ -111,7 +111,7 @@ def outputView(option, coin, current_price, time_ago, price_diff_dec, price_diff
   output += ':purple_circle: $' + current_price + ' (' + time_ago + ')\n'
   output += arrowIcon + price_diff_dec + ' (' + price_diff_perc + '%)\n'
   output += ':fuelpump: ' + str(round(current_gas['instant']['feeCap'], 2)) + ', ' + str(round(current_gas['fast']['feeCap'], 2)) + ', ' + str(round(current_gas['eco']['feeCap'], 2)) + '\n'
-  output += ':battery: ' + gwei2USD(current_gas['instant']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['fast']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['eco']['feeCap'], current_gas_eth) + '\n'
+  output += ':taxi: ' + gwei2USD(current_gas['instant']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['fast']['feeCap'], current_gas_eth) + ', ' + gwei2USD(current_gas['eco']['feeCap'], current_gas_eth) + '\n'
 
   for i in range(0,10):
     output += borderIcon
