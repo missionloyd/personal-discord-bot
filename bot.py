@@ -6,7 +6,7 @@ from eth_price_stats import eth_price_stats
 from unsplash_listener import unsplash
 from whattomine_listener import coin_rankings
 from genesis_listener import genesis_status, check_ping
-from affirmations_listener import affirmation
+from dogapi_listener import dogapi
 from convo_listener import reply
 
 load_dotenv()
@@ -36,9 +36,9 @@ async def wmine():
     await channel.send(coin_rankings(3))
 
 @tasks.loop(hours=8)
-async def affirmations():
+async def dogs():
     channel = await client.fetch_channel(channel_id)
-    await channel.send(affirmation())
+    await channel.send(dogapi())
 
 @client.command()
 async def wtm(ctx):
@@ -64,7 +64,7 @@ async def gene(ctx):
 @client.command()
 async def aff(ctx):
     channel = await client.fetch_channel(channel_id)
-    await channel.send(affirmation())
+    await channel.send(dogapi())
 
 @client.command()
 async def c2(ctx):
@@ -103,5 +103,5 @@ async def logout():
 genesis.start()
 wmine.start()
 ethereum.start()
-affirmations.start()
+dogs.start()
 client.run(TOKEN)
