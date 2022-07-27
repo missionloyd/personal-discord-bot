@@ -1,6 +1,6 @@
 import requests
 
-def unsplash():
+def unsplash_listener():
   URL = 'https://source.unsplash.com/random'
   res = 'Unsplash Error'
 

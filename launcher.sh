@@ -5,7 +5,7 @@
 
 while ! ping -c 1 -W 1 google.com; do
     echo "Waiting for internet connection - network interface might be down..."
-    sleep 1
+    sleep 10
 done
 
 cd /

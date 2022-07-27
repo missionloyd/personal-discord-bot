@@ -66,6 +66,7 @@ def genesis_status():
 
       result += "\n**Scheduled " + worker + " Stats:**\n"
       result += "Status: " + status + "\n"
+      result += "Active Test: " + str(currentStats['activeWorkers']) + "\n"
       result += "Time Stamp: " + str(datetime.fromtimestamp(time).strftime("%m/%d/%Y, %H:%M:%S")) + "\n"
       result += "Last Seen: " + str(datetime.fromtimestamp(lastSeen).strftime("%m/%d/%Y, %H:%M:%S")) + "\n"
       result += "Reported Hashrate: " + str(round(reportedHashrate * (10 ** -6), 1)) + " MH/S" + "\n"
