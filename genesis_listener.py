@@ -56,10 +56,10 @@ def genesis_status():
       staleShares = currentStats['staleShares']
       unpaid = currentStats['unpaid']
 
-      if(status == 1):
-        status = ":money_with_wings: :money_with_wings: :money_with_wings: "
-      else:
+      if(str(reportedHashrate) == '0.0'):
         status = ":sleeping: :sleeping: :sleeping: "
+      else:
+        status = ":money_with_wings: :money_with_wings: :money_with_wings: "
 
       for i in range(0,10):
         result += ":pick: "

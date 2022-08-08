@@ -1,0 +1,41 @@
+{
+  "scenes": [
+    {
+      "name": "Bright",
+      "emoji": "🔆"
+    },
+    {
+      "name": "Dimmed",
+      "emoji": "🔅"
+    },
+
+    {
+      "name": "Soho",
+      "emoji": "☮"
+    },
+    {
+      "name": "Arctic aurora",
+      "emoji": "🥶"
+    },
+    {
+      "name": "Vapor wave",
+      "emoji": "🎡"
+    },
+    {
+      "name": "Honolulu",
+      "emoji": "🍹"
+    },
+    {
+      "name": "Chinatown",
+      "emoji": "🈲"
+    },
+    {
+      "name": "Miami",
+      "emoji": "🦩"
+    },
+    {
+      "name": "Under the tree",
+      "emoji": "🎅"
+    }
+  ]
+}

@@ -1,5 +1,4 @@
-import os
-import discord, time
+import discord, time, json, os
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from eth_price_stats import eth_price_stats
@@ -8,12 +7,21 @@ from whattomine_listener import whattomine_listener
 from genesis_listener import genesis_status, check_ping
 from dogapi_listener import dogapi
 from convo_listener import reply
-from lights_listener import checkTime
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 channel_id = os.getenv('CHANNEL_ID')
 client = commands.Bot(command_prefix='')
+
+# lights
+themes = list()
+f = open('scene_manifest.json', 'r')
+data = json.load(f)
+
+for scene in data['scenes']:
+    themes.append(scene['emoji'])
+
+reactions = ["💡", "❓"]
 
 # load cogs
 for folder in os.listdir("modules"):
@@ -70,19 +78,36 @@ async def gene(ctx):
 @client.command()
 async def lights(ctx):
     channel = await client.fetch_channel(channel_id)
-    message = await channel.send("Light Options:\nOn: 🌞\nOff: 🌚\nStatus: ❓")
-    await message.add_reaction("🌞")
-    await message.add_reaction("🌚")
-    await message.add_reaction("❓")
+    reactions.extend(themes)
+    separator = ', '
+    menu = "Living Room Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
+
+    message = await channel.send(menu)
+
+    for reaction in reactions:
+        await message.add_reaction(reaction)
+
+@client.command()
+async def luke(ctx):
+    channel = await client.fetch_channel(channel_id)
+    reactions.extend(themes)
+    separator = ', '
+    menu = "Luke's Room Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
+
+    message = await channel.send(menu)
+
+    for r in reactions:
+        await message.add_reaction(r)
+    
 
 @client.command()
 async def alarm(ctx):
     channel = await client.fetch_channel(channel_id)
     message = await channel.send("Alarm Options:\nOn: ✅\nOff: ❌\nTime: ⏰\nStatus: ❔")
-    await message.add_reaction("✅")
-    await message.add_reaction("❌")
-    await message.add_reaction("⏰")
-    await message.add_reaction("❔")
+    alarm_reactions = ["✅", "❌", "⏰", "❔"]
+
+    for r in alarm_reactions:
+        await message.add_reaction(r)
 
 @client.command()
 async def aff(ctx):
