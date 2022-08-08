@@ -15,7 +15,7 @@ client = commands.Bot(command_prefix='')
 
 # lights
 themes = list()
-f = open('scene_manifest.json', 'r')
+f = open('/home/pi/dev/python/personal-discord-bot/scene_manifest.json', 'r')
 data = json.load(f)
 
 for scene in data['scenes']:
@@ -24,8 +24,8 @@ for scene in data['scenes']:
 reactions = ["💡", "❓"]
 
 # load cogs
-for folder in os.listdir("modules"):
-    if os.path.exists(os.path.join("modules", folder, "cog.py")):
+for folder in os.listdir("/home/pi/dev/python/personal-discord-bot/modules"):
+    if os.path.exists(os.path.join("/home/pi/dev/python/personal-discord-bot/modules", folder, "cog.py")):
         client.load_extension(f"modules.{folder}.cog")
 
 @tasks.loop(hours=0.5)

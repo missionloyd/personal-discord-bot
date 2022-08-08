@@ -51,7 +51,7 @@ def set_scene(content, emoji, themes, data, transition_time):
 
     b.run_scene(light_groups_list['name'], scene_name, transition_time)
 
-    return
+    return ""
 
 def toggle_group(content):
     group = get_groupID(content)
@@ -95,19 +95,20 @@ def display_scenes():
 
 
 def strobe_alarm(count):
-    b.run_scene("Luke's Room", 'Bright', transition_time=0.2)
-    time.sleep(0.1)
+    # b.run_scene("Luke's Room", 'Bright', transition_time=0.2)
+    time.sleep(1)
     toggle_group("Luke's")
-
     return
 
-def check_time(time, count):
-    # This function runs periodically every 2 second
+def check_time(time):
+
     now = datetime.now()
     current_time = now.strftime("%I:%M")
     print(current_time)
 
     # ex: '11:06'
     if(current_time == time):  # check if matches with the desired time
-        strobe_alarm(count)
-        return
+        return False
+    
+    return True
+

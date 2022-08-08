@@ -24,7 +24,7 @@ class Lights(commands.Cog, name="Lights"):
                 await channel.send(display_status())
 
             elif reaction.emoji in themes:
-                await set_scene(message, reaction.emoji, themes, data, 4)
+                set_scene(message, reaction.emoji, themes, data, 4)
             
 
         

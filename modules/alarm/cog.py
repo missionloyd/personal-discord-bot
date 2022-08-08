@@ -1,7 +1,7 @@
 from discord.ext import commands
 import time, json, os
 from lights_listener import check_time, strobe_alarm
-from threading import Thread, Lock, Timer, Event
+from threading import Thread, Timer, Event
 
 class Alarm(commands.Cog, name="Alarm"):  
     """Recieves Alarm Reactions"""
@@ -10,7 +10,6 @@ class Alarm(commands.Cog, name="Alarm"):
         self.bot = bot
         self.timer = False
         self.alarm = '99:99'
-        self.lock = Lock()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -25,35 +24,56 @@ class Alarm(commands.Cog, name="Alarm"):
     async def on_reaction_add(self, reaction, user):
         channel = reaction.message.channel
 
-        stopFlag = Event()
-        timer = MyThread(self.alarm, stopFlag, count=10)
+        # flag = Event()
+        c = CountingTask()
+        t = Thread(target=c.run, args=(self.alarm, 21))
 
         if user != reaction.message.author:
             if reaction.emoji == "✅":
                 await channel.send("Alarm On: " + self.alarm)
-                timer.start()
+                t.start()
 
             elif reaction.emoji == "❌":
                 await channel.send("Alarm Off: " + self.alarm)
-                stopFlag.set()
+                c.terminate()
+                # t.join()
 
             elif reaction.emoji == "⏰":
                 await channel.send("Set time with the exact format:\nAlarm: HH:MM")
 
             elif reaction.emoji == "❔":
-                await channel.send("Status: " + self.alarm + " (" + str(self.timer) + ")")
+                await channel.send("Status: " + self.alarm + " (" + str(c.running()) + ")")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Alarm(bot))
 
-class MyThread(Thread):
-    def __init__(self, time, event, count):
-        Thread.__init__(self)
-        self.time = time
-        self.stopped = event
-        self.count = count
+class CountingTask:
 
-    def run(self):
-        while not self.stopped.wait(1):
-            check_time(self.time, self.count)
+    def __init__(self):
+        self._running = True
+        self._target = True
+
+    def run(self, t, count):
+        while self._running and self._target:
+            self._target = check_time(t)
+            time.sleep(5)
+
+        if(self._running and self._target == False):
+            print("Alarm Triggered")
+            index = 0
+            while index < count:
+                strobe_alarm(count)
+                index+=1
+        else:
+            print("Alarm Cancelled")
+
+        return 0
+
+    def terminate(self):
+        print("Alarm Terminated")
+        self._running = False
+        self._target == False
+
+    def running(self):
+        return self._running
             

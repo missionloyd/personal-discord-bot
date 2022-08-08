@@ -9,7 +9,7 @@ while ! ping -c 1 -W 1 google.com; do
 done
 
 cd /
-cd home/pi/dev/python/discord-notif-mining-bot
-#sudo pip3 install -r requirements.txt
+cd /home/pi/dev/python/personal-discord-bot/
+sudo pip3 install -r requirements.txt
 sudo python3 bot.py
 cd ~
