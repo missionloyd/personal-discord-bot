@@ -12,7 +12,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 MY_ID = "520856458414522378"
 channel_id = os.getenv('CHANNEL_ID')
-client = commands.Bot(command_prefix='')
+client = commands.Bot(command_prefix='', case_insensitive=True)
 
 # lights
 themes = list()
