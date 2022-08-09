@@ -56,7 +56,7 @@ def genesis_status():
       staleShares = currentStats['staleShares']
       unpaid = currentStats['unpaid']
 
-      if(str(reportedHashrate) == '0.0'):
+      if(str(round(reportedHashrate * (10 ** -6), 1)) == '0.0'):
         status = ":sleeping: :sleeping: :sleeping: "
       else:
         status = ":money_with_wings: :money_with_wings: :money_with_wings: "

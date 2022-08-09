@@ -10,6 +10,7 @@ from convo_listener import reply
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+MY_ID = "520856458414522378"
 channel_id = os.getenv('CHANNEL_ID')
 client = commands.Bot(command_prefix='')
 
@@ -30,12 +31,11 @@ for folder in os.listdir("/home/pi/dev/python/personal-discord-bot/modules"):
 
 @tasks.loop(hours=0.5)
 async def genesis():
-    my_id = "520856458414522378"
     channel = await client.fetch_channel(channel_id)
     coa, wrapped_message = check_ping(genesis_status())
 
     if(coa == 'ping'):
-        await channel.send(f"<@{my_id}> {wrapped_message}")
+        await channel.send(f"<@{MY_ID}> {wrapped_message}")
     else:
         await channel.send(wrapped_message)
 
@@ -66,12 +66,11 @@ async def eth(ctx):
 
 @client.command()
 async def gene(ctx):
-    my_id = "520856458414522378"
     channel = await client.fetch_channel(channel_id)
     coa, wrapped_message = check_ping(genesis_status())
 
     if(coa == 'ping'):
-        await channel.send(f"<@{my_id}> {wrapped_message}")
+        await channel.send(f"<@{MY_ID}> {wrapped_message}")
     else:
         await channel.send(wrapped_message)
 
@@ -141,7 +140,7 @@ async def my_id(message):
 @client.event
 async def on_ready():
     channel = await client.fetch_channel(channel_id)
-    await channel.send(f'{client.user} has Awoken!')
+    await channel.send(f"<@{MY_ID}>, I'm awake!")
     print(f'{client.user} has Awoken!')
 
 @client.event
