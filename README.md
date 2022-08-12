@@ -8,4 +8,4 @@ Environment Variables (.env):
 - BRIDGE_IP (Phillips Hue Bridge IP)
 
 Extras:
-- https://apps.timwhitlock.info/emoji/tables/unicode
+- https://www.unicode.org/emoji/charts/full-emoji-list.html
