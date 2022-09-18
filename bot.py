@@ -79,7 +79,7 @@ async def lights(ctx):
     channel = await client.fetch_channel(channel_id)
     reactions.extend(themes)
     separator = ', '
-    menu = "Living Room Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
+    menu = "**Living Room** Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
 
     message = await channel.send(menu)
 
@@ -91,7 +91,7 @@ async def luke(ctx):
     channel = await client.fetch_channel(channel_id)
     reactions.extend(themes)
     separator = ', '
-    menu = "Luke's Room Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
+    menu = "**Luke's Room** Light Options:\nOn/Off: 💡\nStatus: ❓\nThemes: " + separator.join(themes) + "\n"
 
     message = await channel.send(menu)
 
@@ -131,7 +131,7 @@ async def usplash(ctx):
 async def top(ctx):
     channel = await client.fetch_channel(channel_id)
     filename = 'top.txt'
-    cpu_command = """sudo top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print "CPU Usage: " 100-$8 "%"}'"""
+    cpu_command = """sudo top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print "CPU Utilization: " 100-$8 "%"}'"""
     output = subprocess.run(cpu_command, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
     await channel.send(str(output))
 
@@ -145,8 +145,7 @@ async def mine(ctx):
 @client.command()
 async def wallet(ctx):
     channel = await client.fetch_channel(channel_id)
-    await channel.send('https://2miners.com/')
-    await channel.send('452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad')
+    await channel.send('https://solo-xmr.2miners.com/account/452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad')
 
 @client.command()
 async def reboot(ctx):
@@ -168,7 +167,7 @@ async def on_ready():
 async def logout():
     await client.logout()
 
-# genesis.start()
+genesis.start()
 wmine.start()
 ethereum.start()
 dogs.start()
