@@ -1,4 +1,4 @@
-import discord, time, json, os
+import discord, time, json, os, subprocess
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from eth_price_stats import eth_price_stats
@@ -7,7 +7,6 @@ from whattomine_listener import whattomine_listener
 from genesis_listener import genesis_status, check_ping
 from dogapi_listener import dogapi
 from convo_listener import reply
-from subprocess import Popen
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -132,20 +131,15 @@ async def usplash(ctx):
 async def top(ctx):
     channel = await client.fetch_channel(channel_id)
     filename = 'top.txt'
-    cpu_command = """top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print "CPU Usage: " 100-$8 "%"}'"""
-    os.system(cpu_command + ' > ' + filename)
-    
-    if os.path.exists(filename):
-        text_file = open(filename, 'r')
-        data = text_file.read()
-        text_file.close()
-        await channel.send(str(data))
+    cpu_command = """sudo top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print "CPU Usage: " 100-$8 "%"}'"""
+    output = subprocess.run(cpu_command, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    await channel.send(str(output))
 
 @client.command()
 async def mine(ctx):
     channel = await client.fetch_channel(channel_id)
     command = '/home/pi/monero/xmrig/build/xmrig -o solo-xmr.2miners.com:4444 -u 452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad -p pi'
-    Popen(command, shell=True)
+    subprocess.Popen(command, shell=True)
     await channel.send('**Starting Miner...**')
 
 @client.command()
