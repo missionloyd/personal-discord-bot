@@ -10,6 +10,6 @@ done
 
 cd /
 cd /home/pi/dev/python/personal-discord-bot/
-sudo pip3 install -r requirements.txt
-sudo python3 bot.py
+#sudo pip3 install -r requirements.txt
+sudo /usr/bin/python3 bot.py
 cd ~

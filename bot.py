@@ -7,6 +7,7 @@ from whattomine_listener import whattomine_listener
 from genesis_listener import genesis_status, check_ping
 from dogapi_listener import dogapi
 from convo_listener import reply
+from subprocess import Popen
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -128,6 +129,32 @@ async def usplash(ctx):
     await channel.send(unsplash_listener())
 
 @client.command()
+async def top(ctx):
+    channel = await client.fetch_channel(channel_id)
+    filename = 'top.txt'
+    cpu_command = """top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,'|awk '{print "CPU Usage: " 100-$8 "%"}'"""
+    os.system(cpu_command + ' > ' + filename)
+    
+    if os.path.exists(filename):
+        text_file = open(filename, 'r')
+        data = text_file.read()
+        text_file.close()
+        await channel.send(str(data))
+
+@client.command()
+async def mine(ctx):
+    channel = await client.fetch_channel(channel_id)
+    command = '/home/pi/monero/xmrig/build/xmrig -o solo-xmr.2miners.com:4444 -u 452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad -p pi'
+    Popen(command, shell=True)
+    await channel.send('**Starting Miner...**')
+
+@client.command()
+async def wallet(ctx):
+    channel = await client.fetch_channel(channel_id)
+    await channel.send('https://2miners.com/')
+    await channel.send('452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad')
+
+@client.command()
 async def reboot(ctx):
     channel = await client.fetch_channel(channel_id)
     await channel.send("Goodbye!")
@@ -147,7 +174,7 @@ async def on_ready():
 async def logout():
     await client.logout()
 
-genesis.start()
+# genesis.start()
 wmine.start()
 ethereum.start()
 dogs.start()
