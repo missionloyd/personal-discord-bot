@@ -12,6 +12,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 MY_ID = "520856458414522378"
 channel_id = os.getenv('CHANNEL_ID')
+MINER = ''
 client = commands.Bot(command_prefix='', case_insensitive=True)
 
 # lights
@@ -139,19 +140,35 @@ async def top(ctx):
 async def mine(ctx):
     channel = await client.fetch_channel(channel_id)
     command = '/home/pi/monero/xmrig/build/xmrig -o solo-xmr.2miners.com:4444 -u 452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad -p pi'
-    subprocess.Popen(command, shell=True)
+    miner = subprocess.Popen(command, shell=True)
     await channel.send('**Starting Miner...**')
 
 @client.command()
-async def wallet(ctx):
+async def stop(ctx):
+    channel = await client.fetch_channel(channel_id)
+    if(miner != ''):
+        miner.terminate()
+        await channel.send('**Stopping Miner...**')
+        miner = ''
+    else:
+        await channel.send('**Cannot Stop Miner...**')
+
+@client.command()
+async def xmr(ctx):
     channel = await client.fetch_channel(channel_id)
     await channel.send('https://solo-xmr.2miners.com/account/452PwiwBT4r9FP81pY7uY9dYi1XEEqM4cV4eajAsJoxpg55DzM2cC685Vqh73LmJwg1p66aBzwy4XT7D2H3vK7BFVBn9Yad')
+
+@client.command()
+async def rvn(ctx):
+    channel = await client.fetch_channel(channel_id)
+    await channel.send('https://rvn.2miners.com/account/RPU5Nq3jvRhCKNrrEcpNkccDuapjRJGP9t')
 
 @client.command()
 async def reboot(ctx):
     channel = await client.fetch_channel(channel_id)
     await channel.send("Goodbye!")
-    os.system("sudo reboot")
+    command = "sudo reboot"
+    subprocess.Popen(command, shell=True)
 
 @client.event
 async def my_id(message):
@@ -167,7 +184,7 @@ async def on_ready():
 async def logout():
     await client.logout()
 
-genesis.start()
+# genesis.start()
 wmine.start()
 ethereum.start()
 dogs.start()
