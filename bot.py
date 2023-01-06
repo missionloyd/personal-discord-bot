@@ -72,12 +72,7 @@ async def dogs():
 async def heartbeat(ctx):
     channel = await client.fetch_channel(channel_id)
     ping, response = latest_heartbeat('Student Union')
-
-    if ping:
-        await channel.send(response)
-        await channel.send(f"<@{MY_ID}>, heartbeat might be having issues!")
-    else:
-        await channel.send(response)
+    await channel.send(response)
 
 @client.command()
 async def wtm(ctx):
