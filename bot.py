@@ -1,6 +1,7 @@
 import discord, time, json, os, subprocess
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+from lights_listener import toggle_group
 from eth_price_stats import eth_price_stats
 from unsplash_listener import unsplash_listener
 from whattomine_listener import whattomine_listener
@@ -74,6 +75,16 @@ async def gene(ctx):
         await channel.send(f"<@{MY_ID}> {wrapped_message}")
     else:
         await channel.send(wrapped_message)
+
+@client.command()
+async def on(ctx):
+    channel = await client.fetch_channel(channel_id)
+    await channel.send(toggle_group("Living Room"))
+
+@client.command()
+async def off(ctx):
+    channel = await client.fetch_channel(channel_id)
+    await channel.send(toggle_group("Living Room"))
 
 @client.command()
 async def lights(ctx):
