@@ -1,6 +1,7 @@
-import discord, time, json, os, subprocess
+import discord, time, json, os, subprocess, aiocron
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
+from heartbeat_listener import latest_heartbeat
 from lights_listener import toggle_group
 from eth_price_stats import eth_price_stats
 from unsplash_listener import unsplash_listener
@@ -30,6 +31,17 @@ reactions = ["💡", "❓"]
 for folder in os.listdir("/home/pi/dev/python/personal-discord-bot/modules"):
     if os.path.exists(os.path.join("/home/pi/dev/python/personal-discord-bot/modules", folder, "cog.py")):
         client.load_extension(f"modules.{folder}.cog")
+
+@aiocron.crontab('0 9 * * *')
+async def cornjob1():
+    channel = await client.fetch_channel(channel_id)
+    ping, response = latest_heartbeat('Student Union')
+
+    if ping:
+        await channel.send(response)
+        await channel.send(f"<@{MY_ID}>, heartbeat is having issues!")
+    else:
+        await channel.send(response)
 
 @tasks.loop(hours=0.5)
 async def genesis():
