@@ -33,7 +33,7 @@ for folder in os.listdir("/home/pi/dev/python/personal-discord-bot/modules"):
         client.load_extension(f"modules.{folder}.cog")
 
 @aiocron.crontab('0 9 * * *')
-async def cornjob1():
+async def cronjob():
     channel = await client.fetch_channel(channel_id)
     ping, response = latest_heartbeat('Student Union')
 
@@ -53,7 +53,7 @@ async def genesis():
     else:
         await channel.send(wrapped_message)
 
-@tasks.loop(hours=1)
+@tasks.loop(hours=6)
 async def ethereum():
     channel = await client.fetch_channel(channel_id)
     await channel.send(eth_price_stats())
@@ -67,6 +67,17 @@ async def wmine():
 async def dogs():
     channel = await client.fetch_channel(channel_id)
     await channel.send(dogapi())
+
+@client.command()
+async def heartbeat():
+    channel = await client.fetch_channel(channel_id)
+    ping, response = latest_heartbeat('Student Union')
+
+    if ping:
+        await channel.send(response)
+        await channel.send(f"<@{MY_ID}>, heartbeat is having issues!")
+    else:
+        await channel.send(response)
 
 @client.command()
 async def wtm(ctx):
