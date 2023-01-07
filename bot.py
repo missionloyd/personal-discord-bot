@@ -32,7 +32,7 @@ for folder in os.listdir("/home/pi/dev/python/personal-discord-bot/modules"):
     if os.path.exists(os.path.join("/home/pi/dev/python/personal-discord-bot/modules", folder, "cog.py")):
         client.load_extension(f"modules.{folder}.cog")
 
-@aiocron.crontab('0 9 * * *')
+@aiocron.crontab('0 10 * * *')
 async def cronjob():
     channel = await client.fetch_channel(channel_id)
     ping, response = latest_heartbeat('Student Union')
@@ -72,7 +72,12 @@ async def dogs():
 async def heartbeat(ctx):
     channel = await client.fetch_channel(channel_id)
     ping, response = latest_heartbeat('Student Union')
-    await channel.send(response)
+
+    if ping:
+        await channel.send(response)
+        await channel.send(f"<@{MY_ID}>, heartbeat might be having issues!")
+    else:
+        await channel.send(response)
 
 @client.command()
 async def wtm(ctx):
