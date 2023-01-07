@@ -68,6 +68,17 @@ async def dogs():
     channel = await client.fetch_channel(channel_id)
     await channel.send(dogapi())
 
+@tasks.loop(hours=6)
+async def hb():
+    channel = await client.fetch_channel(channel_id)
+    ping, response = latest_heartbeat('Student Union')
+
+    if ping:
+        await channel.send(response)
+        await channel.send(f"<@{MY_ID}>, heartbeat might be having issues!")
+    else:
+        await channel.send(response)
+
 @client.command()
 async def heartbeat(ctx):
     channel = await client.fetch_channel(channel_id)
@@ -133,7 +144,6 @@ async def luke(ctx):
     for r in reactions:
         await message.add_reaction(r)
     
-
 @client.command()
 async def alarm(ctx):
     channel = await client.fetch_channel(channel_id)
@@ -222,4 +232,5 @@ async def logout():
 wmine.start()
 ethereum.start()
 dogs.start()
+hb.start()
 client.run(TOKEN)
